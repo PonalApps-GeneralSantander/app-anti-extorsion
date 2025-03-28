@@ -1,26 +1,38 @@
 /**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
+ * Color palette for the Anti-Extortion App
+ * Based on the Colombian Police visual identity
  */
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
-
 export const Colors = {
-  light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
-  },
-  dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
-  },
+  // Primary palette - based on Colombian Police
+  primary: '#00457C', // Police blue
+  secondary: '#008F39', // Police green
+  accent: '#F6B40E', // Colombian flag yellow
+  light: '#FFFFFF',
+  dark: '#002855',
+  grey: '#E6E6E6',
+  
+  // Extended palette
+  danger: '#D32F2F',
+  warning: '#FF9800',
+  success: '#4CAF50',
+  info: '#2196F3',
+  
+  // Colombian flag colors
+  flagYellow: '#FEE94E',
+  flagBlue: '#003893',
+  flagRed: '#CE1126',
+  
+  // Text colors
+  textDark: '#11181C',
+  textLight: '#FFFFFF',
+  textSecondary: '#6C757D',
+  
+  // Background colors
+  backgroundLight: '#FFFFFF',
+  backgroundDark: '#F5F7FA',
+  backgroundPrimary: '#E8F1F5',
 };
+
+// This type ensures type safety when using the colors
+export type ColorName = keyof typeof Colors; 
