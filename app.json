@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Aplicacion",
-    "slug": "Aplicacion",
+    "name": "AntiExtorsión",
+    "slug": "anti-extorsion",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -15,7 +15,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.devsociety.antiextorsion"
     },
     "web": {
       "bundler": "metro",
@@ -36,6 +37,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "3b922c31-20c9-4208-897e-253344b258e9"
+      }
     }
   }
 }
