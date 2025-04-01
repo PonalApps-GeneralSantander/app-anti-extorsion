@@ -112,7 +112,7 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '1',
     title: 'Guía Conceptual de la Extorsión',
     type: 'pdf',
-    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F1.pdf?alt=media',
+    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/1.pdf',
     description: 'Documento guía sobre conceptos básicos de extorsión y prevención.',
     icon: 'file-pdf'
   },
@@ -120,7 +120,7 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '2',
     title: 'Presentación Prevención',
     type: 'presentation',
-    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F1.pptx?alt=media',
+    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/1.pptx',
     description: 'Presentación con información sobre prevención de extorsión.',
     icon: 'file-powerpoint'
   },
@@ -128,7 +128,7 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '3',
     title: 'Video de Prevención 1',
     type: 'video',
-    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F1.mp4?alt=media',
+    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/1.mp4',
     description: 'Video educativo sobre prevención de extorsión.',
     icon: 'video'
   },
@@ -136,7 +136,7 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '4',
     title: 'Video de Prevención 2',
     type: 'video',
-    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F2.mp4?alt=media',
+    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/2.mp4',
     description: 'Video informativo sobre modalidades de extorsión.',
     icon: 'video'
   },
@@ -144,7 +144,7 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '5',
     title: 'Imagen Informativa 1',
     type: 'image',
-    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F1.jpeg?alt=media',
+    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/1.jpeg',
     description: 'Imagen informativa sobre prevención.',
     icon: 'image'
   },
@@ -152,7 +152,7 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '6',
     title: 'Imagen Informativa 2',
     type: 'image',
-    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F2.jpeg?alt=media',
+    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/2.jpeg',
     description: 'Imagen informativa sobre modalidades.',
     icon: 'image'
   },
@@ -160,7 +160,7 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '7',
     title: 'Imagen Informativa 3',
     type: 'image',
-    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F3.jpeg?alt=media',
+    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/3.jpeg',
     description: 'Imagen informativa sobre prevención.',
     icon: 'image'
   },
@@ -168,7 +168,7 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '8',
     title: 'Imagen Informativa 4',
     type: 'image',
-    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F4.jpeg?alt=media',
+    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/4.jpeg',
     description: 'Imagen informativa sobre modalidades.',
     icon: 'image'
   },
@@ -176,7 +176,7 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '9',
     title: 'Imagen Informativa 5',
     type: 'image',
-    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F5.jpeg?alt=media',
+    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/5.jpeg',
     description: 'Imagen informativa sobre prevención.',
     icon: 'image'
   },
@@ -184,7 +184,7 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '10',
     title: 'Imagen Informativa 6',
     type: 'image',
-    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F6.jpeg?alt=media',
+    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/6.jpeg',
     description: 'Imagen informativa sobre modalidades.',
     icon: 'image'
   },
@@ -192,7 +192,7 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '11',
     title: 'Imagen Informativa 7',
     type: 'image',
-    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F7.jpeg?alt=media',
+    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/7.jpeg',
     description: 'Imagen informativa sobre prevención.',
     icon: 'image'
   },
@@ -200,7 +200,7 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '12',
     title: 'Imagen Informativa 8',
     type: 'image',
-    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F8.jpeg?alt=media',
+    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/8.jpeg',
     description: 'Imagen informativa sobre modalidades.',
     icon: 'image'
   }
