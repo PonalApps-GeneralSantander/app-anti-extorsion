@@ -6,10 +6,14 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  Linking
+  Linking,
+  Platform,
+  Alert
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FontAwesome5 } from '@expo/vector-icons';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
 
 import { Colors } from '../constants/Colors';
 import PoliceHeader from '../components/PoliceHeader';
@@ -26,6 +30,15 @@ interface ResourceLink {
   id: string;
   title: string;
   url: string;
+  description: string;
+  icon: string;
+}
+
+interface ResourceFile {
+  id: string;
+  title: string;
+  type: 'pdf' | 'video' | 'image' | 'presentation';
+  path: string;
   description: string;
   icon: string;
 }
@@ -94,8 +107,108 @@ const RESOURCE_LINKS: ResourceLink[] = [
   }
 ];
 
+const RESOURCE_FILES: ResourceFile[] = [
+  {
+    id: '1',
+    title: 'Guía Conceptual de la Extorsión',
+    type: 'pdf',
+    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F1.pdf?alt=media',
+    description: 'Documento guía sobre conceptos básicos de extorsión y prevención.',
+    icon: 'file-pdf'
+  },
+  {
+    id: '2',
+    title: 'Presentación Prevención',
+    type: 'presentation',
+    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F1.pptx?alt=media',
+    description: 'Presentación con información sobre prevención de extorsión.',
+    icon: 'file-powerpoint'
+  },
+  {
+    id: '3',
+    title: 'Video de Prevención 1',
+    type: 'video',
+    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F1.mp4?alt=media',
+    description: 'Video educativo sobre prevención de extorsión.',
+    icon: 'video'
+  },
+  {
+    id: '4',
+    title: 'Video de Prevención 2',
+    type: 'video',
+    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F2.mp4?alt=media',
+    description: 'Video informativo sobre modalidades de extorsión.',
+    icon: 'video'
+  },
+  {
+    id: '5',
+    title: 'Imagen Informativa 1',
+    type: 'image',
+    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F1.jpeg?alt=media',
+    description: 'Imagen informativa sobre prevención.',
+    icon: 'image'
+  },
+  {
+    id: '6',
+    title: 'Imagen Informativa 2',
+    type: 'image',
+    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F2.jpeg?alt=media',
+    description: 'Imagen informativa sobre modalidades.',
+    icon: 'image'
+  },
+  {
+    id: '7',
+    title: 'Imagen Informativa 3',
+    type: 'image',
+    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F3.jpeg?alt=media',
+    description: 'Imagen informativa sobre prevención.',
+    icon: 'image'
+  },
+  {
+    id: '8',
+    title: 'Imagen Informativa 4',
+    type: 'image',
+    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F4.jpeg?alt=media',
+    description: 'Imagen informativa sobre modalidades.',
+    icon: 'image'
+  },
+  {
+    id: '9',
+    title: 'Imagen Informativa 5',
+    type: 'image',
+    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F5.jpeg?alt=media',
+    description: 'Imagen informativa sobre prevención.',
+    icon: 'image'
+  },
+  {
+    id: '10',
+    title: 'Imagen Informativa 6',
+    type: 'image',
+    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F6.jpeg?alt=media',
+    description: 'Imagen informativa sobre modalidades.',
+    icon: 'image'
+  },
+  {
+    id: '11',
+    title: 'Imagen Informativa 7',
+    type: 'image',
+    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F7.jpeg?alt=media',
+    description: 'Imagen informativa sobre prevención.',
+    icon: 'image'
+  },
+  {
+    id: '12',
+    title: 'Imagen Informativa 8',
+    type: 'image',
+    path: 'https://firebasestorage.googleapis.com/v0/b/antiextorsion-app.appspot.com/o/recursos%2F8.jpeg?alt=media',
+    description: 'Imagen informativa sobre modalidades.',
+    icon: 'image'
+  }
+];
+
 export default function RecursosScreen() {
   const [expandedTip, setExpandedTip] = useState<string | null>(null);
+  const [downloading, setDownloading] = useState<string | null>(null);
   
   const toggleTip = (id: string) => {
     if (expandedTip === id) {
@@ -107,6 +220,24 @@ export default function RecursosScreen() {
   
   const handleOpenLink = (url: string) => {
     Linking.openURL(url);
+  };
+
+  const handleResourceAction = async (resource: ResourceFile) => {
+    try {
+      setDownloading(resource.id);
+      
+      // Abrir la URL directamente
+      await Linking.openURL(resource.path);
+      
+    } catch (error) {
+      console.error('Error al abrir el recurso:', error);
+      Alert.alert(
+        'Error',
+        'No se pudo abrir el recurso. Por favor, intente nuevamente.'
+      );
+    } finally {
+      setDownloading(null);
+    }
   };
 
   return (
@@ -259,6 +390,45 @@ export default function RecursosScreen() {
             description="Localidad Kennedy, Bogotá"
             icon="shield-alt"
           />
+        </View>
+        
+        {/* Recursos Descargables */}
+        <View style={styles.sectionContainer}>
+          <Text style={styles.sectionTitle}>
+            Recursos Educativos
+          </Text>
+          
+          {RESOURCE_FILES.map(resource => (
+            <TouchableOpacity 
+              key={resource.id}
+              style={[
+                styles.resourceFileContainer,
+                downloading === resource.id && styles.downloadingContainer
+              ]}
+              onPress={() => handleResourceAction(resource)}
+              activeOpacity={0.7}
+              disabled={downloading === resource.id}
+            >
+              <View style={styles.resourceFileIconContainer}>
+                <FontAwesome5 
+                  name={downloading === resource.id ? 'spinner' : resource.icon} 
+                  size={20} 
+                  color={Colors.primary} 
+                />
+              </View>
+              <View style={styles.resourceFileContent}>
+                <Text style={styles.resourceFileTitle}>{resource.title}</Text>
+                <Text style={styles.resourceFileDescription}>
+                  {downloading === resource.id ? 'Descargando...' : resource.description}
+                </Text>
+              </View>
+              <FontAwesome5 
+                name={downloading === resource.id ? 'spinner' : 'share-alt'} 
+                size={16} 
+                color={Colors.primary} 
+              />
+            </TouchableOpacity>
+          ))}
         </View>
         
         {/* Footer */}
@@ -465,5 +635,43 @@ const styles = StyleSheet.create({
   footerSubtext: {
     fontSize: 14,
     color: Colors.textSecondary,
+  },
+  resourceFileContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.light,
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 12,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+  },
+  resourceFileIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: Colors.backgroundPrimary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  resourceFileContent: {
+    flex: 1,
+  },
+  resourceFileTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: Colors.dark,
+    marginBottom: 4,
+  },
+  resourceFileDescription: {
+    fontSize: 13,
+    color: Colors.textSecondary,
+  },
+  downloadingContainer: {
+    opacity: 0.7,
   },
 }); 
