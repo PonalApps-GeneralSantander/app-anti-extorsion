@@ -1,63 +1,310 @@
-# Aplicación Anti-Extorsión
+# AntiExtorsión - Aplicación Móvil de Seguridad
 
-Una aplicación móvil desarrollada con React Native y Expo, enfocada en combatir la extorsión dirigida al sector comercial en la localidad de Kennedy, Bogotá, específicamente en la jurisdicción del CAI Caldas. La aplicación refleja la identidad corporativa de la Policía Nacional de Colombia.
+## 📱 Descripción General
 
-## Características
+AntiExtorsión es una aplicación móvil desarrollada en colaboración con la Policía Nacional de Colombia, diseñada específicamente para proteger al sector comercial de la localidad de Kennedy, Bogotá, contra actividades de extorsión. La aplicación combina tecnología avanzada con la experiencia de la Policía Nacional para crear una herramienta efectiva de prevención y denuncia.
 
-- **Identificación de Llamadas Sospechosas**: Alerta cuando una llamada entrante coincide con números reportados como utilizados para extorsión.
-- **Bloqueo de Llamadas**: Función de bloqueo automático de llamadas sospechosas.
-- **Registro y Reporte de Incidentes**: Formulario para que los usuarios puedan ingresar detalles sobre intentos de extorsión.
-- **Grabación de Llamadas**: Interfaz para iniciar/detener la grabación de llamadas.
-- **Información y Recursos de Prevención**: Sección con información sobre cómo identificar, prevenir y reaccionar ante la extorsión.
-- **Alertas y Notificaciones**: Alertas sobre nuevas modalidades de extorsión o números reportados en la zona.
-- **Coordinación Comunitaria**: Interfaz para que comerciantes verificados puedan compartir información sobre incidentes.
-- **Integración con Líneas de Emergencia**: Botones para llamar a los números de emergencia de la policía y otras autoridades.
+## 🎯 Objetivo Principal
 
-## Tecnologías
+Proporcionar a los comerciantes de la localidad de Kennedy una herramienta tecnológica que les permita:
+- Identificar y prevenir intentos de extorsión
+- Reportar incidentes de manera segura y eficiente
+- Acceder rápidamente a recursos de ayuda
+- Mantener un registro de llamadas sospechosas
+- Coordinar con la comunidad comercial local
 
-- React Native
-- Expo
-- TypeScript
-- React Navigation
+## 👥 Guía para Usuarios No Técnicos
 
-## Capturas de Pantalla
+### Instalación y Configuración Inicial
 
-(Próximamente)
+1. **Descarga de la Aplicación**
+   - Busque "AntiExtorsión" en la Google Play Store
+   - Descargue e instale la aplicación
+   - Abra la aplicación y acepte los términos y condiciones
 
-## Instalación
+2. **Primer Uso**
+   - Complete el registro inicial con sus datos básicos
+   - Configure sus contactos de emergencia
+   - Active las notificaciones para recibir alertas
 
-1. Clone este repositorio:
+### Funcionalidades Principales
+
+#### 🚨 Botón de Emergencia
+- Ubicado en la pantalla principal
+- Conecta directamente con la línea 123
+- Acceso rápido en situaciones de emergencia
+
+#### 📞 Sistema de Alertas
+- Notifica sobre números telefónicos sospechosos
+- Muestra el nivel de riesgo de cada llamada
+- Permite bloquear automáticamente números reportados
+
+#### 📝 Reporte de Incidentes
+- Formulario simple para reportar intentos de extorsión
+- Opción de denuncia anónima
+- Capacidad para adjuntar evidencias (grabaciones, mensajes)
+
+#### 🎙️ Grabación de Llamadas
+- Interfaz intuitiva para grabar llamadas
+- Almacenamiento seguro de las grabaciones
+- Compartir evidencias con las autoridades
+
+#### 📚 Recursos y Prevención
+- Guías de prevención de extorsión
+- Información sobre modalidades de extorsión
+- Enlaces a recursos oficiales
+
+### Consejos de Seguridad
+
+1. **Prevención**
+   - Verifique siempre la identidad de quien llama
+   - No comparta información personal por teléfono
+   - Mantenga un registro de llamadas sospechosas
+
+2. **Durante una Llamada Sospechosa**
+   - Mantenga la calma
+   - No proporcione información sensible
+   - Grabe la llamada si es posible
+   - Reporte el incidente inmediatamente
+
+3. **Después de un Incidente**
+   - Guarde todas las evidencias
+   - Reporte el caso a través de la aplicación
+   - Contacte a las autoridades
+
+## 👨‍💻 Documentación Técnica
+
+### Arquitectura del Proyecto
+
+```
+app/
+├── _layout.tsx          # Configuración de navegación
+├── index.tsx           # Pantalla principal
+├── alertas.tsx         # Sistema de alertas
+├── grabacion.tsx       # Grabación de llamadas
+├── reportar.tsx        # Formulario de reportes
+└── recursos.tsx        # Recursos y prevención
+
+components/
+├── AppButton.tsx       # Componente de botón reutilizable
+├── EmergencyContactCard.tsx
+├── PoliceHeader.tsx
+└── SuspiciousCallCard.tsx
+
+constants/
+└── Colors.ts          # Paleta de colores y estilos
+```
+
+### Tecnologías Utilizadas
+
+- **Framework Principal**: React Native con Expo
+- **Lenguaje**: TypeScript
+- **Navegación**: Expo Router
+- **UI Components**: React Native Core
+- **Iconos**: FontAwesome5
+- **Gestión de Estado**: React Hooks
+
+### Configuración del Entorno de Desarrollo
+
+1. **Requisitos Previos**
+   ```bash
+   Node.js >= 14
+   npm >= 6
+   Expo CLI
    ```
-   git clone https://github.com/tuusuario/aplicacion-anti-extorsion.git
-   ```
 
-2. Ingrese al directorio del proyecto:
-   ```
-   cd aplicacion-anti-extorsion
-   ```
+2. **Instalación**
+   ```bash
+   # Clonar el repositorio
+   git clone [URL_DEL_REPOSITORIO]
 
-3. Instale las dependencias:
-   ```
+   # Instalar dependencias
    npm install
-   ```
 
-4. Inicie la aplicación:
-   ```
+   # Iniciar el servidor de desarrollo
    npx expo start
    ```
 
-## Notas Importantes
+3. **Estructura de Datos**
 
-- Esta aplicación se desarrolló como parte de una iniciativa para mejorar la seguridad de los comerciantes en la localidad de Kennedy, Bogotá.
-- Se recomienda su uso en conjunto con las orientaciones de la Policía Nacional de Colombia.
-- La función de grabación de llamadas debe ser utilizada de acuerdo con la legislación vigente y con el consentimiento de todas las partes involucradas en la conversación.
+   ```typescript
+   interface SuspiciousCall {
+     id: string;
+     phoneNumber: string;
+     date: string;
+     time: string;
+     riskLevel: 'high' | 'medium' | 'low';
+     description: string;
+   }
 
-## Colaboradores
+   interface RecordedCall {
+     id: string;
+     phoneNumber: string;
+     date: string;
+     time: string;
+     duration: string;
+     fileSize: string;
+   }
+   ```
+
+### Guías de Desarrollo
+
+#### Estándares de Código
+
+1. **Nomenclatura**
+   - Componentes: PascalCase
+   - Funciones: camelCase
+   - Constantes: UPPER_SNAKE_CASE
+   - Tipos/Interfaces: PascalCase
+
+2. **Estructura de Componentes**
+   ```typescript
+   // Imports
+   import React from 'react';
+   import { View, Text, StyleSheet } from 'react-native';
+
+   // Tipos
+   interface Props {
+     // Definir props
+   }
+
+   // Componente
+   export default function ComponentName(props: Props) {
+     // Lógica del componente
+   }
+
+   // Estilos
+   const styles = StyleSheet.create({
+     // Definir estilos
+   });
+   ```
+
+3. **Gestión de Estado**
+   - Usar hooks de React para estado local
+   - Implementar Context API para estado global
+   - Mantener la lógica de negocio separada de la UI
+
+### Proceso de Build
+
+1. **Configuración de EAS**
+   ```json
+   {
+     "build": {
+       "preview": {
+         "distribution": "internal",
+         "android": {
+           "buildType": "apk"
+         }
+       }
+     }
+   }
+   ```
+
+2. **Generación de APK**
+   ```bash
+   eas build --platform android --profile preview
+   ```
+
+### Pruebas
+
+1. **Pruebas Unitarias**
+   ```bash
+   npm test
+   ```
+
+2. **Pruebas de Integración**
+   - Usar Jest y React Native Testing Library
+   - Implementar pruebas de navegación
+   - Verificar interacciones de usuario
+
+## 🔒 Seguridad
+
+### Manejo de Datos Sensibles
+
+1. **Almacenamiento**
+   - Usar SecureStore para datos sensibles
+   - Implementar encriptación para grabaciones
+   - Limpiar caché regularmente
+
+2. **Comunicación**
+   - HTTPS para todas las API calls
+   - Validación de certificados SSL
+   - Timeout en conexiones
+
+### Permisos
+
+```json
+{
+  "expo": {
+    "plugins": [
+      "expo-router",
+      "expo-splash-screen"
+    ]
+  }
+}
+```
+
+## 📦 Despliegue
+
+### Proceso de Publicación
+
+1. **Preparación**
+   - Actualizar versiones
+   - Generar changelog
+   - Revisar assets
+
+2. **Build**
+   ```bash
+   eas build --platform android
+   ```
+
+3. **Publicación**
+   - Subir APK a Google Play Store
+   - Actualizar documentación
+   - Notificar a usuarios
+
+## 🤝 Contribución
+
+### Guías para Contribuir
+
+1. Fork el repositorio
+2. Crear una rama feature (`git checkout -b feature/AmazingFeature`)
+3. Commit cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abrir un Pull Request
+
+### Estándares de Código
+
+- Seguir ESLint y Prettier
+- Documentar funciones y componentes
+- Incluir pruebas unitarias
+- Mantener la cobertura de código
+
+## 📞 Soporte
+
+### Canales de Ayuda
+
+- Email: soporte@antiextorsion.com
+- Teléfono: [Número de soporte]
+- Documentación en línea: [URL]
+
+### FAQ
+
+1. **¿Cómo actualizo la aplicación?**
+   - La actualización es automática desde la Play Store
+
+2. **¿Qué hacer si la app no funciona?**
+   - Verificar conexión a internet
+   - Reiniciar la aplicación
+   - Contactar soporte técnico
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia [Especificar tipo de licencia] - ver el archivo [LICENSE.md](LICENSE.md) para más detalles.
+
+## 🙏 Agradecimientos
 
 - Policía Nacional de Colombia
-- App - Anti-Extorsión
-- Desarrollado por DevSociety
-
-## Licencia
-
-Este proyecto está bajo la Licencia [Especificar tipo de licencia]
+- Comunidad de comerciantes de Kennedy
+- Equipo de desarrollo
+- Contribuidores del proyecto
