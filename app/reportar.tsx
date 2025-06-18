@@ -17,6 +17,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Colors } from '../constants/Colors';
 import AppButton from '../components/AppButton';
 import PoliceHeader from '../components/PoliceHeader';
+import { ReportsService } from '../services/reportsService';
 
 export default function ReportarScreen() {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -30,40 +31,81 @@ export default function ReportarScreen() {
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
-    // Validation
-    if (!phoneNumber || !date || !time || !description) {
-      Alert.alert('Error', 'Por favor complete todos los campos obligatorios');
+  const handleSubmit = async () => {
+    // Crear objeto con los datos del formulario
+    const formData = {
+      phoneNumber,
+      date,
+      time,
+      description,
+      hasEvidence,
+      anonymous,
+      reporterName,
+      reporterContact,
+      termsAccepted
+    };
+
+    // Validación local
+    const validationErrors = ReportsService.validateReportData(formData);
+    if (validationErrors.length > 0) {
+      const errorMessage = validationErrors.map(error => error.message).join('\n');
+      Alert.alert('Error de Validación', errorMessage);
       return;
     }
 
-    if (!anonymous && (!reporterName || !reporterContact)) {
-      Alert.alert('Error', 'Por favor ingrese su nombre y contacto');
-      return;
-    }
-
-    if (!termsAccepted) {
-      Alert.alert('Error', 'Debe aceptar los términos y condiciones para continuar');
-      return;
-    }
-
-    // Submit report logic
     setLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      // Formatear datos para la API
+      const reportData = ReportsService.formatReportData(formData);
+      
+      // Enviar reporte a la API
+      const response = await ReportsService.createReport(reportData);
+      
+      if (response.success) {
+        Alert.alert(
+          'Reporte Enviado',
+          `${response.message}\n\nNúmero de caso: ${response.data.caseNumber}`,
+          [
+            { 
+              text: 'OK', 
+              onPress: handleReset 
+            }
+          ]
+        );
+      } else {
+        throw new Error(response.message || 'Error desconocido');
+      }
+    } catch (error) {
+      console.error('Error al enviar reporte:', error);
+      
+      // Manejar errores específicos de la API
+      const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+      
+      if (errorMessage.includes('validation') || errorMessage.includes('validación')) {
+        Alert.alert(
+          'Error de Validación',
+          'Por favor revise los datos ingresados y intente nuevamente.'
+        );
+      } else if (errorMessage.includes('network') || errorMessage.includes('fetch')) {
+        Alert.alert(
+          'Error de Conexión',
+          'No se pudo conectar con el servidor. Verifique su conexión a internet e intente nuevamente.'
+        );
+      } else if (errorMessage.includes('Too Many Requests')) {
+        Alert.alert(
+          'Demasiadas Solicitudes',
+          'Ha excedido el límite de reportes. Por favor espere unos minutos antes de intentar nuevamente.'
+        );
+      } else {
+        Alert.alert(
+          'Error',
+          'Ocurrió un error al enviar el reporte. Por favor intente nuevamente.'
+        );
+      }
+    } finally {
       setLoading(false);
-      Alert.alert(
-        'Reporte Enviado',
-        'Su reporte ha sido enviado exitosamente. Un oficial se pondrá en contacto con usted a la brevedad.',
-        [
-          { 
-            text: 'OK', 
-            onPress: handleReset 
-          }
-        ]
-      );
-    }, 1500);
+    }
   };
 
   const handleReset = () => {

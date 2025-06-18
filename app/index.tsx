@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -15,8 +15,56 @@ import { Link } from "expo-router";
 
 import { Colors } from "../constants/Colors";
 import EmergencyContactCard from "../components/EmergencyContactCard";
+import ReportStatusModal from "../components/ReportStatusModal";
+import { API_CONFIG, buildApiUrl, getApiHeaders } from "../constants/ApiConfig";
+
+interface LatestReport {
+  id: string;
+  caseNumber: string;
+  phoneNumber: string;
+  incidentDate: string;
+  description: string;
+  status: string;
+  createdAt: string;
+}
 
 export default function HomeScreen() {
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [latestReport, setLatestReport] = useState<LatestReport | null>(null);
+  const [loadingReport, setLoadingReport] = useState(false);
+
+  useEffect(() => {
+    fetchLatestReport();
+  }, []);
+
+  const fetchLatestReport = async () => {
+    setLoadingReport(true);
+    try {
+      const url = buildApiUrl(`${API_CONFIG.ENDPOINTS.REPORTS}?page=1&limit=1`);
+      const headers = getApiHeaders();
+      
+      const response = await fetch(url, { headers });
+      const data = await response.json();
+      
+      if (data.success && data.data.reports && data.data.reports.length > 0) {
+        const report = data.data.reports[0];
+        setLatestReport({
+          id: report.id,
+          caseNumber: report.caseNumber,
+          phoneNumber: report.phoneNumber,
+          incidentDate: report.incidentDate,
+          description: report.description,
+          status: report.status,
+          createdAt: report.createdAt
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching latest report:', error);
+    } finally {
+      setLoadingReport(false);
+    }
+  };
+
   const handleEmergencyPress = () => {
     Alert.alert(
       "Llamada de Emergencia",
@@ -34,6 +82,49 @@ export default function HomeScreen() {
         },
       ]
     );
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'PENDING':
+        return Colors.warning;
+      case 'IN_REVIEW':
+        return Colors.info;
+      case 'RESOLVED':
+        return Colors.success;
+      case 'CLOSED':
+        return Colors.textSecondary;
+      default:
+        return Colors.primary;
+    }
+  };
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'PENDING':
+        return 'Pendiente';
+      case 'IN_REVIEW':
+        return 'En Revisión';
+      case 'RESOLVED':
+        return 'Resuelto';
+      case 'CLOSED':
+        return 'Cerrado';
+      default:
+        return status;
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('es-CO', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+      });
+    } catch {
+      return dateString;
+    }
   };
 
   return (
@@ -139,6 +230,47 @@ export default function HomeScreen() {
               </TouchableOpacity>
             </Link>
           </View>
+
+          {/* Second row of cards */}
+          <View style={styles.cardRow}>
+            <TouchableOpacity 
+              style={styles.quickCard} 
+              activeOpacity={0.7}
+              onPress={() => setShowReportModal(true)}
+            >
+              <View
+                style={[
+                  styles.cardIconContainer,
+                  { backgroundColor: Colors.primary },
+                ]}
+              >
+                <FontAwesome5
+                  name="search"
+                  size={20}
+                  color={Colors.light}
+                />
+              </View>
+              <Text style={styles.cardTitle}>Consultar</Text>
+              <Text style={styles.cardSubtitle}>Reportes</Text>
+            </TouchableOpacity>
+
+            <Link href="/recursos" asChild>
+              <TouchableOpacity style={styles.quickCard} activeOpacity={0.7}>
+                <View
+                  style={[
+                    styles.cardIconContainer,
+                    { backgroundColor: Colors.success },
+                  ]}
+                >
+                  <FontAwesome5 name="book" size={20} color={Colors.light} />
+                </View>
+                <Text style={styles.cardTitle}>Recursos</Text>
+                <Text style={styles.cardSubtitle}>Información</Text>
+              </TouchableOpacity>
+            </Link>
+
+            <View style={styles.quickCard} />
+          </View>
         </View>
 
         {/* Emergency Contacts */}
@@ -168,32 +300,94 @@ export default function HomeScreen() {
           />
         </View>
 
-        {/* Latest Alert */}
+        {/* Latest Report */}
         <View style={styles.alertContainer}>
-          <Text style={styles.sectionTitle}>Ultima Alerta</Text>
-          <View style={styles.alertCard}>
-            <View style={styles.alertHeader}>
-              <FontAwesome5
-                name="exclamation-triangle"
-                size={18}
-                color={Colors.danger}
+          <View style={styles.sectionHeaderRow}>
+            <Text style={styles.sectionTitle}>Último Reporte</Text>
+            <TouchableOpacity 
+              style={styles.refreshButton}
+              onPress={fetchLatestReport}
+              disabled={loadingReport}
+            >
+              <FontAwesome5 
+                name="sync-alt" 
+                size={14} 
+                color={Colors.primary}
+                style={{ opacity: loadingReport ? 0.5 : 1 }}
               />
-              <Text style={styles.alertTitle}>
-                Nueva modalidad de extorsión
+              <Text style={[styles.refreshText, { opacity: loadingReport ? 0.5 : 1 }]}>
+                {loadingReport ? 'Cargando...' : 'Actualizar'}
               </Text>
-            </View>
-            <Text style={styles.alertDate}>21 de Marzo, 2023</Text>
-            <Text style={styles.alertDescription}>
-              Se han reportado casos de individuos que se hacen pasar por
-              funcionarios del Ministerio de Hacienda solicitando pagos por
-              supuestas deudas tributarias.
-            </Text>
-            <TouchableOpacity style={styles.alertButton}>
-              <Text style={styles.alertButtonText}>Ver Más</Text>
             </TouchableOpacity>
           </View>
+          
+          {latestReport ? (
+            <View style={styles.alertCard}>
+              <View style={styles.alertHeader}>
+                <FontAwesome5
+                  name="file-alt"
+                  size={18}
+                  color={getStatusColor(latestReport.status)}
+                />
+                <Text style={styles.alertTitle}>
+                  Caso: {latestReport.caseNumber}
+                </Text>
+                <View style={[styles.statusBadge, { backgroundColor: getStatusColor(latestReport.status) }]}>
+                  <Text style={styles.statusText}>
+                    {getStatusText(latestReport.status)}
+                  </Text>
+                </View>
+              </View>
+              <Text style={styles.alertDate}>
+                {formatDate(latestReport.createdAt)}
+              </Text>
+              <Text style={styles.phoneNumber}>
+                📞 {latestReport.phoneNumber}
+              </Text>
+              <Text style={styles.alertDescription} numberOfLines={3}>
+                {latestReport.description}
+              </Text>
+              <TouchableOpacity 
+                style={styles.alertButton}
+                onPress={() => setShowReportModal(true)}
+              >
+                <Text style={styles.alertButtonText}>Ver Detalles</Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View style={styles.alertCard}>
+              <View style={styles.alertHeader}>
+                <FontAwesome5
+                  name="info-circle"
+                  size={18}
+                  color={Colors.textSecondary}
+                />
+                <Text style={[styles.alertTitle, { color: Colors.textSecondary }]}>
+                  {loadingReport ? 'Cargando último reporte...' : 'No hay reportes disponibles'}
+                </Text>
+              </View>
+              {!loadingReport && (
+                <>
+                  <Text style={styles.alertDescription}>
+                    Aún no se han registrado reportes en el sistema. Sea el primero en reportar un incidente de extorsión.
+                  </Text>
+                  <Link href="/reportar" asChild>
+                    <TouchableOpacity style={styles.alertButton}>
+                      <Text style={styles.alertButtonText}>Crear Reporte</Text>
+                    </TouchableOpacity>
+                  </Link>
+                </>
+              )}
+            </View>
+          )}
         </View>
       </ScrollView>
+
+      {/* Report Status Modal */}
+      <ReportStatusModal
+        visible={showReportModal}
+        onClose={() => setShowReportModal(false)}
+      />
     </View>
   );
 }
@@ -363,5 +557,38 @@ const styles = StyleSheet.create({
     color: Colors.light,
     fontSize: 12,
     fontWeight: "bold",
+  },
+  sectionHeaderRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 8,
+  },
+  refreshButton: {
+    padding: 8,
+    borderWidth: 1,
+    borderColor: Colors.primary,
+    borderRadius: 4,
+  },
+  refreshText: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: Colors.primary,
+    marginLeft: 8,
+  },
+  statusBadge: {
+    padding: 4,
+    borderRadius: 4,
+    marginLeft: 8,
+  },
+  statusText: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: Colors.light,
+  },
+  phoneNumber: {
+    fontSize: 14,
+    color: Colors.textSecondary,
+    marginBottom: 8,
   },
 });

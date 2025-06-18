@@ -23,6 +23,8 @@ interface SuspiciousCallCardProps {
   time: string;
   riskLevel: RiskLevel;
   description?: string;
+  reportCount?: number;
+  lastReported?: string;
   onPress?: () => void;
 }
 
@@ -32,6 +34,8 @@ export default function SuspiciousCallCard({
   time,
   riskLevel,
   description,
+  reportCount,
+  lastReported,
   onPress,
 }: SuspiciousCallCardProps) {
   
@@ -121,6 +125,33 @@ export default function SuspiciousCallCard({
         </View>
       </View>
 
+      {(reportCount || lastReported) && (
+        <View style={styles.statsContainer}>
+          {reportCount && (
+            <View style={styles.statItem}>
+              <FontAwesome5 
+                name="flag" 
+                size={12} 
+                color={COLORS.danger} 
+                style={styles.statIcon} 
+              />
+              <Text style={styles.statText}>{reportCount} reportes</Text>
+            </View>
+          )}
+          {lastReported && (
+            <View style={styles.statItem}>
+              <FontAwesome5 
+                name="clock" 
+                size={12} 
+                color={COLORS.warning} 
+                style={styles.statIcon} 
+              />
+              <Text style={styles.statText}>{lastReported}</Text>
+            </View>
+          )}
+        </View>
+      )}
+
       {description && (
         <Text style={styles.description} numberOfLines={2}>
           {description}
@@ -193,5 +224,25 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#555',
     marginTop: 8,
+  },
+  statsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 8,
+    paddingTop: 8,
+    borderTopWidth: 1,
+    borderTopColor: COLORS.grey,
+  },
+  statItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  statIcon: {
+    marginRight: 4,
+  },
+  statText: {
+    fontSize: 12,
+    color: COLORS.dark,
+    fontWeight: '600',
   },
 }); 
