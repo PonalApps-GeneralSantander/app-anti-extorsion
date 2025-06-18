@@ -86,9 +86,9 @@ const RESOURCE_LINKS: ResourceLink[] = [
   },
   {
     id: '2',
-    title: 'GAULA - Grupo Antiextorsión',
+    title: 'GAULA - Grupo SafeLife',
     url: 'https://www.policia.gov.co/especializados/gaula',
-    description: 'Información sobre el Grupo Antiextorsión y Antisecuestro.',
+    description: 'Información sobre el Grupo SafeLife y Antisecuestro.',
     icon: 'user-shield'
   },
   {
@@ -112,15 +112,15 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '1',
     title: 'Guía Conceptual de la Extorsión',
     type: 'pdf',
-    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/1.pdf',
-    description: 'Documento guía sobre conceptos básicos de extorsión y prevención.',
+    path: '1.pdf',
+    description: 'Docume nto guía sobre conceptos básicos de extorsión y prevención.',
     icon: 'file-pdf'
   },
   {
     id: '2',
     title: 'Presentación Prevención',
     type: 'presentation',
-    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/1.pptx',
+    path: '1.pptx',
     description: 'Presentación con información sobre prevención de extorsión.',
     icon: 'file-powerpoint'
   },
@@ -128,7 +128,7 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '3',
     title: 'Video de Prevención 1',
     type: 'video',
-    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/1.mp4',
+    path: '1.mp4',
     description: 'Video educativo sobre prevención de extorsión.',
     icon: 'video'
   },
@@ -136,7 +136,7 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '4',
     title: 'Video de Prevención 2',
     type: 'video',
-    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/2.mp4',
+    path: '2.mp4',
     description: 'Video informativo sobre modalidades de extorsión.',
     icon: 'video'
   },
@@ -144,7 +144,7 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '5',
     title: 'Imagen Informativa 1',
     type: 'image',
-    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/1.jpeg',
+    path: '1.jpeg',
     description: 'Imagen informativa sobre prevención.',
     icon: 'image'
   },
@@ -152,7 +152,7 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '6',
     title: 'Imagen Informativa 2',
     type: 'image',
-    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/2.jpeg',
+    path: '2.jpeg',
     description: 'Imagen informativa sobre modalidades.',
     icon: 'image'
   },
@@ -160,7 +160,7 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '7',
     title: 'Imagen Informativa 3',
     type: 'image',
-    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/3.jpeg',
+    path: '3.jpeg',
     description: 'Imagen informativa sobre prevención.',
     icon: 'image'
   },
@@ -168,7 +168,7 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '8',
     title: 'Imagen Informativa 4',
     type: 'image',
-    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/4.jpeg',
+    path: '4.jpeg',
     description: 'Imagen informativa sobre modalidades.',
     icon: 'image'
   },
@@ -176,7 +176,7 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '9',
     title: 'Imagen Informativa 5',
     type: 'image',
-    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/5.jpeg',
+    path: '5.jpeg',
     description: 'Imagen informativa sobre prevención.',
     icon: 'image'
   },
@@ -184,7 +184,7 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '10',
     title: 'Imagen Informativa 6',
     type: 'image',
-    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/6.jpeg',
+    path: '6.jpeg',
     description: 'Imagen informativa sobre modalidades.',
     icon: 'image'
   },
@@ -192,7 +192,7 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '11',
     title: 'Imagen Informativa 7',
     type: 'image',
-    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/7.jpeg',
+    path: '7.jpeg',
     description: 'Imagen informativa sobre prevención.',
     icon: 'image'
   },
@@ -200,7 +200,7 @@ const RESOURCE_FILES: ResourceFile[] = [
     id: '12',
     title: 'Imagen Informativa 8',
     type: 'image',
-    path: 'https://github.com/PonalApps-GeneralSantander/app-anti-extorsion/blob/main/assets/recursos/8.jpeg',
+    path: '8.jpeg',
     description: 'Imagen informativa sobre modalidades.',
     icon: 'image'
   }
@@ -226,8 +226,17 @@ export default function RecursosScreen() {
     try {
       setDownloading(resource.id);
       
-      // Abrir la URL directamente
-      await Linking.openURL(resource.path);
+      // Construir la URL completa
+      const url = `http://public.stonestore.co/ponal/app-extor/${resource.path}`;
+      
+      // Verificar si se puede abrir la URL
+      const canOpen = await Linking.canOpenURL(url);
+      if (!canOpen) {
+        throw new Error('No se puede abrir el enlace');
+      }
+      
+      // Abrir la URL en el navegador
+      await Linking.openURL(url);
       
     } catch (error) {
       console.error('Error al abrir el recurso:', error);

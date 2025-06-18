@@ -516,9 +516,9 @@ const RESOURCE_LINKS: ResourceLink[] = [
   },
   {
     id: '2',
-    title: 'GAULA - Grupo Antiextorsión',
+    title: 'GAULA - Grupo SafeLife',
     url: 'https://www.policia.gov.co/especializados/gaula',
-    description: 'Información sobre el Grupo Antiextorsión y Antisecuestro.',
+    description: 'Información sobre el Grupo SafeLife y Antisecuestro.',
     icon: 'user-shield'
   },
   {
@@ -3241,8 +3241,8 @@ export type ColorName = keyof typeof Colors;
 <file path="app.json">
 {
   "expo": {
-    "name": "AntiExtorsión",
-    "slug": "anti-extorsion",
+    "name": "SafeLife",
+    "slug": "SafeLife",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -3322,12 +3322,12 @@ Una aplicación móvil desarrollada con React Native y Expo, enfocada en combati
 
 1. Clone este repositorio:
    ```
-   git clone https://github.com/tuusuario/aplicacion-anti-extorsion.git
+   git clone https://github.com/tuusuario/aplicacion-SafeLife.git
    ```
 
 2. Ingrese al directorio del proyecto:
    ```
-   cd aplicacion-anti-extorsion
+   cd aplicacion-SafeLife
    ```
 
 3. Instale las dependencias:

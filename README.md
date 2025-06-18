@@ -1,8 +1,8 @@
-# AntiExtorsión - Aplicación Móvil de Seguridad
+# SafeLife - Aplicación Móvil de Seguridad
 
 ## 📱 Descripción General
 
-AntiExtorsión es una aplicación móvil desarrollada en colaboración con la Policía Nacional de Colombia, diseñada específicamente para proteger al sector comercial de la localidad de Kennedy, Bogotá, contra actividades de extorsión. La aplicación combina tecnología avanzada con la experiencia de la Policía Nacional para crear una herramienta efectiva de prevención y denuncia.
+SafeLife es una aplicación móvil desarrollada en colaboración con la Policía Nacional de Colombia, diseñada específicamente para proteger al sector comercial de la localidad de Kennedy, Bogotá, contra actividades de extorsión. La aplicación combina tecnología avanzada con la experiencia de la Policía Nacional para crear una herramienta efectiva de prevención y denuncia.
 
 ## 🎯 Objetivo Principal
 
@@ -18,7 +18,7 @@ Proporcionar a los comerciantes de la localidad de Kennedy una herramienta tecno
 ### Instalación y Configuración Inicial
 
 1. **Descarga de la Aplicación**
-   - Busque "AntiExtorsión" en la Google Play Store
+   - Busque "SafeLife" en la Google Play Store
    - Descargue e instale la aplicación
    - Abra la aplicación y acepte los términos y condiciones
 

@@ -1,4 +1,4 @@
-# Documentación Técnica - AntiExtorsión
+# Documentación Técnica - SafeLife
 
 ## Índice
 
@@ -17,7 +17,7 @@
 
 ### Visión General
 
-La aplicación AntiExtorsión está construida siguiendo una arquitectura modular basada en componentes React Native. El sistema se divide en las siguientes capas:
+La aplicación SafeLife está construida siguiendo una arquitectura modular basada en componentes React Native. El sistema se divide en las siguientes capas:
 
 1. **Capa de Presentación**
    - Componentes UI reutilizables
@@ -98,7 +98,7 @@ La aplicación AntiExtorsión está construida siguiendo una arquitectura modula
 1. **Clonar el Repositorio**
    ```bash
    git clone [URL_DEL_REPOSITORIO]
-   cd anti-extorsion
+   cd SafeLife
    ```
 
 2. **Instalar Dependencias**
@@ -122,7 +122,7 @@ La aplicación AntiExtorsión está construida siguiendo una arquitectura modula
 ### Organización de Directorios
 
 ```
-anti-extorsion/
+SafeLife/
 ├── app/                    # Pantallas principales
 │   ├── _layout.tsx        # Configuración de navegación
 │   ├── index.tsx          # Pantalla principal

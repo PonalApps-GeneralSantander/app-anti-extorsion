@@ -1,4 +1,4 @@
-# Guía del Usuario - AntiExtorsión
+# Guía del Usuario - SafeLife
 
 ## Índice
 
@@ -11,9 +11,9 @@
 
 ## Introducción
 
-AntiExtorsión es una aplicación móvil desarrollada en colaboración con la Policía Nacional de Colombia para proteger al sector comercial de la localidad de Kennedy, Bogotá, contra actividades de extorsión. Esta guía te ayudará a utilizar la aplicación de manera efectiva y segura.
+SafeLife es una aplicación móvil desarrollada en colaboración con la Policía Nacional de Colombia para proteger al sector comercial de la localidad de Kennedy, Bogotá, contra actividades de extorsión. Esta guía te ayudará a utilizar la aplicación de manera efectiva y segura.
 
-### ¿Qué es AntiExtorsión?
+### ¿Qué es SafeLife?
 
 - Una herramienta de seguridad para comerciantes
 - Sistema de alertas para llamadas sospechosas
@@ -35,7 +35,7 @@ AntiExtorsión es una aplicación móvil desarrollada en colaboración con la Po
 
 1. **Descargar la Aplicación**
    - Abre la Google Play Store
-   - Busca "AntiExtorsión"
+   - Busca "SafeLife"
    - Toca "Instalar"
    - Espera a que se complete la instalación
 
