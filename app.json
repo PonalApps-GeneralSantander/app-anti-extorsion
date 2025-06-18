@@ -26,7 +26,12 @@
         "WRITE_EXTERNAL_STORAGE",
         "READ_EXTERNAL_STORAGE",
         "READ_PHONE_STATE",
-        "PROCESS_OUTGOING_CALLS"
+        "PROCESS_OUTGOING_CALLS",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.ACCESS_MEDIA_LOCATION"
       ]
     },
     "web": {
@@ -68,6 +73,9 @@
     "extra": {
       "router": {
         "origin": false
+      },
+      "eas": {
+        "projectId": "5acfb904-5568-4e57-ace6-1f1e4fad6ea8"
       }
     }
   }
