@@ -120,9 +120,9 @@ export default function HomeScreen() {
               resizeMode="contain"
             />
           </View>
-          <Text style={styles.headerTitle}>Aplicación Anti-Extorsión</Text>
+          <Text style={styles.headerTitle}>Aplicación SaveLife</Text>
           <Text style={styles.headerSubtitle}>
-            App - Anti-Extorsión
+            App - SaveLife
           </Text>
         </View>
 
@@ -234,9 +234,9 @@ export default function HomeScreen() {
           />
 
           <EmergencyContactCard
-            title="GAULA Anti-Extorsión"
+            title="GAULA SaveLife"
             phoneNumber="165"
-            description="Grupo Anti-Extorsión y Secuestro"
+            description="Grupo SaveLife y Secuestro"
             icon="user-shield"
           />
         </View>
@@ -690,9 +690,9 @@ export default function RecursosScreen() {
           />
           
           <EmergencyContactCard
-            title="GAULA Anti-Extorsión"
+            title="GAULA SaveLife"
             phoneNumber="165"
-            description="Grupo Anti-Extorsión y Secuestro"
+            description="Grupo SaveLife y Secuestro"
             icon="user-shield"
           />
           
@@ -717,7 +717,7 @@ export default function RecursosScreen() {
             Policía Nacional de Colombia
           </Text>
           <Text style={styles.footerSubtext}>
-            App - Anti-Extorsión
+            App - SaveLife
           </Text>
         </View>
       </ScrollView>
@@ -3257,7 +3257,7 @@ export type ColorName = keyof typeof Colors;
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.devsociety.antiextorsion"
+      "package": "com.devsociety.savelife"
     },
     "web": {
       "bundler": "metro",
@@ -3292,7 +3292,7 @@ export type ColorName = keyof typeof Colors;
 </file>
 
 <file path="README.md">
-# Aplicación Anti-Extorsión
+# Aplicación SaveLife
 
 Una aplicación móvil desarrollada con React Native y Expo, enfocada en combatir la extorsión dirigida al sector comercial en la localidad de Kennedy, Bogotá, específicamente en la jurisdicción del CAI Caldas. La aplicación refleja la identidad corporativa de la Policía Nacional de Colombia.
 
@@ -3349,7 +3349,7 @@ Una aplicación móvil desarrollada con React Native y Expo, enfocada en combati
 ## Colaboradores
 
 - Policía Nacional de Colombia
-- App - Anti-Extorsión
+- App - SaveLife
 - Desarrollado por DevSociety
 
 ## Licencia

@@ -23,6 +23,10 @@ interface ReportStatusData {
   reportId: string;
   caseNumber: string;
   status: string;
+  phoneNumber?: string;
+  description?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export default function ReportStatusModal({ visible, onClose }: ReportStatusModalProps) {
@@ -38,7 +42,11 @@ export default function ReportStatusModal({ visible, onClose }: ReportStatusModa
     }
 
     setLoading(true);
+    setReportData(null); // Limpiar datos anteriores
+    
     try {
+      console.log(`🔍 Buscando reporte por ${searchType}:`, searchValue.trim());
+      
       let response;
       
       if (searchType === 'case') {
@@ -47,26 +55,76 @@ export default function ReportStatusModal({ visible, onClose }: ReportStatusModa
         response = await ReportsService.getReportStatus(searchValue.trim());
       }
 
-      if (response.success && response.data) {
-        setReportData(response.data);
-      } else {
-        throw new Error(response.message || 'Reporte no encontrado');
+      console.log('📥 Respuesta de la API:', response);
+
+      // Manejar diferentes formatos de respuesta
+      let reportInfo = null;
+      
+      if (response && typeof response === 'object') {
+        // Si la respuesta tiene un campo 'data'
+        if (response.data) {
+          reportInfo = response.data;
+        }
+        // Si la respuesta es directamente el objeto del reporte
+        else if (response.id || response.caseNumber) {
+          reportInfo = response;
+        }
+        // Si hay un array de reportes, tomar el primero
+        else if (Array.isArray(response) && response.length > 0) {
+          reportInfo = response[0];
+        }
       }
+
+      if (reportInfo) {
+        // Formatear los datos para el modal
+        const formattedData = {
+          reportId: reportInfo.id || reportInfo.reportId || 'N/A',
+          caseNumber: reportInfo.caseNumber || reportInfo.case_number || 'N/A',
+          status: reportInfo.status || 'UNKNOWN',
+          phoneNumber: reportInfo.phoneNumber || reportInfo.phone_number || 'N/A',
+          description: reportInfo.description || 'Sin descripción',
+          createdAt: reportInfo.createdAt || reportInfo.created_at || reportInfo.incidentDate,
+          updatedAt: reportInfo.updatedAt || reportInfo.updated_at,
+        };
+        
+        console.log('✅ Datos formateados para mostrar:', formattedData);
+        setReportData(formattedData);
+        
+        // Mostrar notificación de éxito
+        Alert.alert(
+          'Reporte Encontrado',
+          `Se encontró el reporte con caso: ${formattedData.caseNumber}`,
+          [{ text: 'OK' }]
+        );
+      } else {
+        throw new Error('No se encontró información del reporte');
+      }
+      
     } catch (error) {
-      console.error('Error al buscar reporte:', error);
+      console.error('💥 Error al buscar reporte:', error);
+      
       const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
       
-      if (errorMessage.includes('no encontrado') || errorMessage.includes('not found')) {
+      if (errorMessage.includes('no encontrado') || 
+          errorMessage.includes('not found') || 
+          errorMessage.includes('404')) {
         Alert.alert(
           'Reporte No Encontrado',
-          'No se encontró ningún reporte con los datos proporcionados. Verifique el número de caso o ID e intente nuevamente.'
+          `No se encontró ningún reporte con ${searchType === 'case' ? 'el número de caso' : 'el ID'}: "${searchValue.trim()}"\n\nVerifique los datos e intente nuevamente.`
+        );
+      } else if (errorMessage.includes('Network Error') || 
+                 errorMessage.includes('timeout')) {
+        Alert.alert(
+          'Error de Conexión',
+          'No se pudo conectar con el servidor. Verifique su conexión a internet e intente nuevamente.'
         );
       } else {
         Alert.alert(
           'Error',
-          'Ocurrió un error al consultar el reporte. Por favor intente nuevamente.'
+          `Ocurrió un error al consultar el reporte:\n${errorMessage}\n\nPor favor intente nuevamente.`
         );
       }
+      
       setReportData(null);
     } finally {
       setLoading(false);
@@ -109,6 +167,32 @@ export default function ReportStatusModal({ visible, onClose }: ReportStatusModa
     }
   };
 
+  const generateTestData = () => {
+    const statuses = ['PENDING', 'IN_REVIEW', 'RESOLVED', 'CLOSED'];
+    const phoneNumbers = ['+57 300 123 4567', '+57 310 987 6543', '+57 320 555 0123'];
+    const descriptions = [
+      'Llamada de extorsión solicitando dinero con amenazas',
+      'Intento de estafa telefónica haciéndose pasar por banco',
+      'Amenazas por cobro de deuda inexistente',
+      'Extorsión con supuestas fotos comprometedoras'
+    ];
+    
+    const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+    const randomPhone = phoneNumbers[Math.floor(Math.random() * phoneNumbers.length)];
+    const randomDescription = descriptions[Math.floor(Math.random() * descriptions.length)];
+    const randomDate = new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000); // Últimos 30 días
+    
+    return {
+      reportId: `test-${Math.random().toString(36).substr(2, 9)}`,
+      caseNumber: `EXT-2024-${String(Math.floor(Math.random() * 999999)).padStart(6, '0')}`,
+      status: randomStatus,
+      phoneNumber: randomPhone,
+      description: randomDescription,
+      createdAt: randomDate.toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+  };
+
   return (
     <Modal
       visible={visible}
@@ -122,6 +206,18 @@ export default function ReportStatusModal({ visible, onClose }: ReportStatusModa
             <FontAwesome5 name="times" size={24} color={Colors.textDark} />
           </TouchableOpacity>
           <Text style={styles.title}>Consultar Estado de Reporte</Text>
+          <TouchableOpacity 
+            onPress={() => {
+              Alert.alert(
+                'Cómo Usar Esta Función',
+                '• Número de Caso: Formato EXT-YYYY-NNNNNN (ej: EXT-2024-000123)\n\n• ID de Reporte: Identificador único del reporte\n\n• Use "Generar Datos de Ejemplo" para probar la funcionalidad\n\n• Los datos se conectan automáticamente al servidor cuando esté disponible',
+                [{ text: 'Entendido' }]
+              );
+            }}
+            style={styles.helpButton}
+          >
+            <FontAwesome5 name="question-circle" size={20} color={Colors.primary} />
+          </TouchableOpacity>
         </View>
 
         <View style={styles.content}>
@@ -175,17 +271,60 @@ export default function ReportStatusModal({ visible, onClose }: ReportStatusModa
                 onChangeText={setSearchValue}
                 placeholder={searchType === 'case' ? 'Ej: EXT-2024-000001' : 'Ej: a1b2c3d4-e5f6-7890...'}
                 autoCapitalize="none"
+                onSubmitEditing={handleSearch}
+                returnKeyType="search"
               />
+              <TouchableOpacity 
+                onPress={handleSearch}
+                disabled={loading || !searchValue.trim()}
+                style={[
+                  styles.searchIconButton,
+                  (!searchValue.trim() || loading) && styles.searchIconButtonDisabled
+                ]}
+              >
+                {loading ? (
+                  <ActivityIndicator size="small" color={Colors.primary} />
+                ) : (
+                  <FontAwesome5 
+                    name="arrow-right" 
+                    size={14} 
+                    color={(!searchValue.trim() || loading) ? Colors.textSecondary : Colors.primary} 
+                  />
+                )}
+              </TouchableOpacity>
             </View>
           </View>
 
-          <AppButton
-            title="Buscar Reporte"
+          <TouchableOpacity
             onPress={handleSearch}
-            loading={loading}
             disabled={loading || !searchValue.trim()}
-            style={styles.searchButton}
-          />
+            style={[
+              styles.alternativeSearchButton,
+              (loading || !searchValue.trim()) && styles.alternativeSearchButtonDisabled
+            ]}
+          >
+            <FontAwesome5 name="search" size={16} color={Colors.primary} />
+            <Text style={styles.alternativeSearchButtonText}>
+              {loading ? 'Buscando...' : 'Buscar Reporte'}
+            </Text>
+            {loading && <ActivityIndicator size="small" color={Colors.primary} style={{ marginLeft: 8 }} />}
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={styles.testButton}
+            onPress={() => {
+              const testData = generateTestData();
+              setReportData(testData);
+              Alert.alert(
+                'Datos de Prueba Generados',
+                `Se generó un reporte de ejemplo:\nCaso: ${testData.caseNumber}\nEstado: ${getStatusText(testData.status)}`,
+                [{ text: 'OK' }]
+              );
+            }}
+          >
+            <FontAwesome5 name="flask" size={16} color={Colors.secondary} />
+            <Text style={styles.testButtonText}>Generar Datos de Ejemplo</Text>
+          </TouchableOpacity>
 
           {reportData && (
             <View style={styles.resultContainer}>
@@ -222,6 +361,62 @@ export default function ReportStatusModal({ visible, onClose }: ReportStatusModa
                     {getStatusText(reportData.status)}
                   </Text>
                 </View>
+              </View>
+
+              {reportData.phoneNumber && reportData.phoneNumber !== 'N/A' && (
+                <View style={styles.resultItem}>
+                  <Text style={styles.resultLabel}>Número Reportado:</Text>
+                  <Text style={styles.resultValue}>{reportData.phoneNumber}</Text>
+                </View>
+              )}
+
+              {reportData.description && reportData.description !== 'Sin descripción' && (
+                <View style={styles.resultItem}>
+                  <Text style={styles.resultLabel}>Descripción:</Text>
+                  <Text style={styles.resultDescription}>{reportData.description}</Text>
+                </View>
+              )}
+
+              {reportData.createdAt && (
+                <View style={styles.resultItem}>
+                  <Text style={styles.resultLabel}>Fecha de Creación:</Text>
+                  <Text style={styles.resultValue}>
+                    {new Date(reportData.createdAt).toLocaleDateString('es-CO', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })}
+                  </Text>
+                </View>
+              )}
+
+              <View style={styles.actionButtonsContainer}>
+                <TouchableOpacity 
+                  style={styles.actionButton}
+                  onPress={() => {
+                    Alert.alert(
+                      'Información Completa',
+                      `Caso: ${reportData.caseNumber}\nID: ${reportData.reportId}\nEstado: ${getStatusText(reportData.status)}\nTeléfono: ${reportData.phoneNumber || 'N/A'}\n\nDescripción:\n${reportData.description || 'Sin descripción'}`,
+                      [{ text: 'Cerrar' }]
+                    );
+                  }}
+                >
+                  <FontAwesome5 name="info-circle" size={16} color={Colors.primary} />
+                  <Text style={styles.actionButtonText}>Ver Detalles</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity 
+                  style={styles.actionButton}
+                  onPress={() => {
+                    setSearchValue('');
+                    setReportData(null);
+                  }}
+                >
+                  <FontAwesome5 name="search" size={16} color={Colors.primary} />
+                  <Text style={styles.actionButtonText}>Nueva Búsqueda</Text>
+                </TouchableOpacity>
               </View>
             </View>
           )}
@@ -384,5 +579,90 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: Colors.textSecondary,
     marginTop: 8,
+  },
+  resultDescription: {
+    fontSize: 14,
+    color: Colors.textDark,
+    lineHeight: 20,
+    fontStyle: 'italic',
+  },
+  actionButtonsContainer: {
+    flexDirection: 'row',
+    marginTop: 16,
+    gap: 12,
+  },
+  actionButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.backgroundLight,
+    borderWidth: 1,
+    borderColor: Colors.primary,
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+  },
+  actionButtonText: {
+    marginLeft: 8,
+    fontSize: 14,
+    fontWeight: '600',
+    color: Colors.primary,
+  },
+  testButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.backgroundLight,
+    borderWidth: 1,
+    borderColor: Colors.secondary,
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    marginBottom: 16,
+  },
+  testButtonText: {
+    marginLeft: 8,
+    fontSize: 12,
+    fontWeight: '500',
+    color: Colors.secondary,
+  },
+  helpButton: {
+    padding: 8,
+    marginLeft: 8,
+  },
+  searchIconButton: {
+    padding: 12,
+    backgroundColor: Colors.backgroundLight,
+    borderLeftWidth: 1,
+    borderLeftColor: '#DDDDDD',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minWidth: 44,
+  },
+  searchIconButtonDisabled: {
+    opacity: 0.5,
+  },
+  alternativeSearchButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.backgroundLight,
+    borderWidth: 1,
+    borderColor: Colors.primary,
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    marginBottom: 16,
+  },
+  alternativeSearchButtonDisabled: {
+    opacity: 0.5,
+    borderColor: Colors.textSecondary,
+  },
+  alternativeSearchButtonText: {
+    marginLeft: 8,
+    fontSize: 14,
+    fontWeight: '600',
+    color: Colors.primary,
   },
 }); 

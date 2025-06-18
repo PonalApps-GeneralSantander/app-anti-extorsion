@@ -1,6 +1,6 @@
 # 🔗 Integración Backend - Frontend
 
-## 📱 App Anti-Extorsión - Policía Nacional de Colombia
+## 📱 App SaveLife - Policía Nacional de Colombia
 
 Esta documentación explica cómo está integrado el backend NestJS con la aplicación móvil React Native.
 

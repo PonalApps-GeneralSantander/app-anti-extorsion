@@ -387,9 +387,9 @@ export default function RecursosScreen() {
           />
           
           <EmergencyContactCard
-            title="GAULA Anti-Extorsión"
+            title="GAULA SaveLife"
             phoneNumber="165"
-            description="Grupo Anti-Extorsión y Secuestro"
+            description="Grupo SaveLife y Secuestro"
             icon="user-shield"
           />
           
@@ -453,7 +453,7 @@ export default function RecursosScreen() {
             Policía Nacional de Colombia
           </Text>
           <Text style={styles.footerSubtext}>
-            App - Anti-Extorsión
+            App - SaveLife
           </Text>
         </View>
       </ScrollView>

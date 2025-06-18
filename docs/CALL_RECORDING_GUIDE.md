@@ -146,7 +146,7 @@ iOS:
 5. Verificar que inicie "Grabando automáticamente..."
 6. Colgar y verificar que se guardó en "Grabaciones Recientes"
 
-## 📞 **Integración con Sistema Anti-Extorsión**
+## 📞 **Integración con Sistema SaveLife**
 
 ### **Funcionalidades Avanzadas:**
 - 🔍 **Verificación Automática**: Consulta números contra base de datos de reportes

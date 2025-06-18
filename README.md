@@ -284,7 +284,7 @@ constants/
 
 ### Canales de Ayuda
 
-- Email: soporte@antiextorsion.com
+- Email: soporte@savelife.com
 - Teléfono: [Número de soporte]
 - Documentación en línea: [URL]
 

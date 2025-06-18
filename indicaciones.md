@@ -145,4 +145,4 @@ Esta es una aplicación móvil para combatir la extorsión, desarrollada para la
 
 **Archivo generado desde:** `app/reportar.tsx`  
 **Fecha:** $(date)  
-**Propósito:** Integración backend para sistema anti-extorsión 
+**Propósito:** Integración backend para sistema SaveLife 

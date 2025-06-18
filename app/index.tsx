@@ -138,9 +138,9 @@ export default function HomeScreen() {
               resizeMode="contain"
             />
           </View>
-          <Text style={styles.headerTitle}>Aplicación Anti-Extorsión</Text>
+          <Text style={styles.headerTitle}>Aplicación SaveLife</Text>
           <Text style={styles.headerSubtitle}>
-            App - Anti-Extorsión
+            App - SaveLife
           </Text>
         </View>
 
@@ -293,9 +293,9 @@ export default function HomeScreen() {
           />
 
           <EmergencyContactCard
-            title="GAULA Anti-Extorsión"
+            title="GAULA SaveLife"
             phoneNumber="165"
-            description="Grupo Anti-Extorsión y Secuestro"
+            description="Grupo SaveLife y Secuestro"
             icon="user-shield"
           />
         </View>

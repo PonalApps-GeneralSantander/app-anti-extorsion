@@ -202,7 +202,7 @@ La aplicación tiene cinco secciones principales:
 ### Contacto con Soporte
 
 1. **Canales de Ayuda**
-   - Email: soporte@antiextorsion.com
+   - Email: soporte@savelife.com
    - Teléfono: [Número de soporte]
    - Chat en línea
 
@@ -266,7 +266,7 @@ La aplicación tiene cinco secciones principales:
 ### Enlaces Útiles
 
 - [Policía Nacional](https://www.policia.gov.co)
-- [GAULA Anti-Extorsión](https://www.policia.gov.co/especializados/gaula)
+- [GAULA SaveLife](https://www.policia.gov.co/especializados/gaula)
 - [Fiscalía General](https://www.fiscalia.gov.co)
 
 ### Contactos de Emergencia
